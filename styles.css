@@ -1,0 +1,25 @@
+body {
+    background-color: aquamarine;
+}
+
+h1 {
+    text-align: center;
+}
+
+.grid-container {
+    max-width: 500px;
+    margin: auto;
+    position: relative;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    background-color: hsl(207, 90%, 54%);
+    padding: 10px;
+    font-family: verdana;
+    font-size: 20px;
+  }
+
+.grid-items {
+    max-width: 500px;
+    margin: auto;
+    font-size: 100px;
+}
