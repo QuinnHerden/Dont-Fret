@@ -1,4 +1,1 @@
 # Don't Fret
-
-
-Accidentals
