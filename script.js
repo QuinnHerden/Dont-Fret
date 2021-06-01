@@ -1,20 +1,20 @@
-var strings = ["?", "E lo ", "B", "G", "D", "A", "E hi"];
-var notes = ["?", "A", "B", "C", "D", "E", "F", "G"];
-var mod = ["?", " ", "#", "b"];
-var fingers = ["?", "1st", "2nd", "3rd", "4th"];
-function change() {
-    document.getElementById("string").innerHTML = strings[Math.floor(Math.random() * (strings.length-1)) + 1];
-    document.getElementById("note").innerHTML =
-        notes[Math.floor(Math.random() * (notes.length-1)) + 1] + mod[Math.floor(Math.random() * (mod.length-1)) + 1];
-    document.getElementById("finger").innerHTML = fingers[Math.floor(Math.random() * (fingers.length-1)) + 1];
-}
+const base_notes = ["F", "C", "G", "D", "A", "E", "B"];
 
-function selectAll() {
-    document.getElementsByClassName("")
+function change() {
+    var notes = [base_notes];
+    var accidentals = document.querySelector('input[name="key"]:checked').value;
+
+    for (i = 0, i < accidentals; i++) {
+        notes[i] = notes[i] + "#";
+    }
+    // var disp = document.querySelector('input[name="key"]:checked').value;
+    // notes[1] = "L";
+    // document.getElementById("test").innerHTML = notes[1];
+    
 }
 
 document.addEventListener('keyup', event => {
     if (event.code === 'Space') {
-     change()
+        change();
     }
   })
