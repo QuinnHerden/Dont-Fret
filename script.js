@@ -1,16 +1,17 @@
 const base_notes = ["F", "C", "G", "D", "A", "E", "B"];
+var notes = base_notes.slice();
+
+function key_change() {
+    notes = base_notes.slice(); // copies base_notes
+    var accidentals = document.querySelector('input[name="key"]:checked').value[0]; // grabs the # of accidentals in selected key
+    
+    for (var i = 0; i < accidentals; i++) { // adds appropriate sharps
+        notes[i] = (notes[i] + "#");
+    }
+}
 
 function change() {
-    var notes = [base_notes];
-    var accidentals = document.querySelector('input[name="key"]:checked').value;
-
-    for (i = 0, i < accidentals; i++) {
-        notes[i] = notes[i] + "#";
-    }
-    // var disp = document.querySelector('input[name="key"]:checked').value;
-    // notes[1] = "L";
-    // document.getElementById("test").innerHTML = notes[1];
-    
+    document.getElementById("note").innerHTML = notes[Math.floor(Math.random() * notes.length)];
 }
 
 document.addEventListener('keyup', event => {
