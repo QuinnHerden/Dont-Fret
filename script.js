@@ -242,16 +242,3 @@ const notes = {
         ]
     }
 }
-
-
-
-function change() {
-    document.getElementById("note").innerHTML = notes["G"]["notes_in_key"][6];
-    // document.getElementById("note").innerHTML = notes["C"]["vertical_fretboard_locations"];
-}
-
-document.addEventListener('keyup', event => {
-    if (event.code === 'Space') {
-        change();
-    }
-  })
