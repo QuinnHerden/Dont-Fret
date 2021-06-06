@@ -55,20 +55,40 @@ class fretboard {
     }
 }
 
-var ordered_notes = [
-    ['A', 'G##', 'Bbb'],
-    ['A#', 'Bb', 'Cbb'],
-    ['B', 'A##', 'Cb'],
-    ['C', 'B#', 'Dbb'],
-    ['C#', 'B##', 'Db'],
-    ['D', 'C##', 'Ebb'],
-    ['D#', 'C##', 'Eb'],
-    ['E', 'D##', 'Fb'],
-    ['F', 'E#', 'Gbb'],
-    ['F#', 'E##', 'Gb'],
-    ['G', 'F##', 'Abb'],
-    ['G#', 'Ab', 'Bbb'],
-];
+var scale = {
+    scale_notes: [
+        ['A', 'G##', 'Bbb'],
+        ['A#', 'Bb', 'Cbb'],
+        ['B', 'A##', 'Cb'],
+        ['C', 'B#', 'Dbb'],
+        ['C#', 'B##', 'Db'],
+        ['D', 'C##', 'Ebb'],
+        ['D#', 'C##', 'Eb'],
+        ['E', 'D##', 'Fb'],
+        ['F', 'E#', 'Gbb'],
+        ['F#', 'E##', 'Gb'],
+        ['G', 'F##', 'Abb'],
+        ['G#', 'Ab', 'Bbb'],
+    ],
+
+    find: function(search_notes) {
+        var location = [-1, -1];
+        for (var i = 0; i < this.scale_notes.length; i++) {
+            for (var j = 0; j < this.scale_notes[0].length; j++) {
+                if (search_notes == this.scale_notes[i][j]) {
+                    location[0] = i;
+                    location[1] = j;
+                }
+            }
+        }
+        return location;
+
+    }
+}
+
+console.log(scale.find(""));
+
+
 
 
 
