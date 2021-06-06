@@ -84,20 +84,20 @@ function layout(string_num, string_tuning) {
     for (var i = 0; i < num_of_frets - 1; i++) {
         for (var j = 0; j < num_of_strings - 1; j++) {
             if (string_tuning == ordered_notes[i][j]) {
-                var fret_index = [i, j];
+                var fret_index = i;
             }
         }
     }
 
     // Updating all parts html grid to have note names listed
-    for (i = 0; i <= 12; i++) {
-        if (fret_index[0] > num_of_frets - 1) {
-            fret_index[0] = 0;
+    for (i = 0; i <= num_of_frets; i++) {
+        if (fret_index > num_of_frets - 1) {
+            fret_index = 0;
         }
         var id = "" + i + "," + string_num
-        document.getElementById(id).innerHTML= ordered_notes[fret_index[0]];
+        document.getElementById(id).innerHTML= ordered_notes[fret_index];
         
-        fret_index[0] ++;
+        fret_index ++;
     }
 }
 
