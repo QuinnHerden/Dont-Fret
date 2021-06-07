@@ -1,5 +1,7 @@
-class instrument {
+class Instrument {
     constructor(title, type, num_of_runs, run_tunings, num_of_steps) {
+        this.western_scale = new Chromatic();
+
         this.title = title;
         this.type = type;
         this.num_of_runs = num_of_runs;
@@ -12,9 +14,9 @@ class instrument {
     locations_skeleton() {
         // adding skeleton entries
         var note_name;
-        for (var i = 0; i < scale.scale_notes.length; i++) {
-            for (var j = 0; j < scale.scale_notes[0].length; j++) {
-                note_name = scale.scale_notes[i][j];
+        for (var i = 0; i < old_scale.scale_notes.length; i++) {
+            for (var j = 0; j < old_scale.scale_notes[0].length; j++) {
+                note_name = old_scale.scale_notes[i][j];
                 this.locations[note_name] = [];
             }
         }
@@ -27,31 +29,73 @@ class instrument {
 
             for (var j = 0; j <= this.num_of_steps; j++) {
                 for (var k = 0; k < 3; k++) {
-                    note_name = scale.equivalent_note_shift(note_name);
+                    note_name = old_scale.equivalent_note_shift(note_name);
                     this.locations[note_name].push([i, j]);
                 }
-                note_name = scale.up_half_step(note_name);
+                note_name = old_scale.up_half_step(note_name);
             }
         }
     }
 }
-class guitar extends instrument {
+class Guitar extends Instrument {
     constructor(title, run_tunings, num_of_steps) {
-        super(title, "guitar", 6, run_tunings, num_of_steps);  
+        super(title, "fret", 6, run_tunings, num_of_steps);  
     }
 }
-class bass extends instrument {
+class Bass extends Instrument {
     constructor(title, run_tunings, num_of_steps) {
-        super(title, "bass", 4, run_tunings, num_of_steps);
+        super(title, "fret", 4, run_tunings, num_of_steps);
     }
 }
-class piano extends instrument {
+class Piano extends Instrument {
     constructor(title, num_of_steps) {
-        super(title, "piano", 1, ['C'], num_of_steps);
+        super(title, "keys", 1, ['C'], num_of_steps);
     }
 }
 
-var scale = {
+class Scale {
+    constructor(included_notes) {
+        this.included_notes = included_notes;
+        this.scale_map = {};
+        this.scale_map_fill();
+    }
+    scale_map_fill() {
+        var note_name;
+        for (var i = 0; i < this.included_notes.length; i++) {
+            for (var j = 0; j < this.included_notes[0].length; j++) {
+                note_name = this.included_notes[i][j];
+                this.scale_map[note_name] = [i, j];
+            }
+        }
+    }
+}
+class Chromatic extends Scale {
+    constructor() {
+        super([
+            ['A', 'G##', 'Bbb'],
+            ['A#', 'Bb', 'Cbb'],
+            ['C', 'B#', 'Dbb'],
+            ['B', 'A##', 'Cb'],
+            ['C#', 'B##', 'Db'],
+            ['D', 'C##', 'Ebb'],
+            ['D#', 'Eb', 'Fbb'],
+            ['E', 'D##', 'Fb'],
+            ['F', 'E#', 'Gbb'],
+            ['F#', 'E##', 'Gb'],
+            ['G', 'F##', 'Abb'],
+            ['G#', 'Ab']
+            ]);
+    }
+}
+
+
+
+
+
+
+
+
+var old_scale = {
     scale_notes: [
         ['A', 'G##', 'Bbb'],
         ['A#', 'Bb', 'Cbb'],
@@ -99,13 +143,13 @@ var scale = {
     }
 }
 
-var openE = new guitar("Open E", ['E', 'B', 'G', 'D', 'A', 'E'], 21);
+var openE = new Guitar("Open E", ['E', 'B', 'G', 'D', 'A', 'E'], 21);
 console.log(openE.locations['E']);
 
-var normiePiano = new piano("Normie Piano", 24);
+var normiePiano = new Piano("Normie Piano", 24);
 console.log(normiePiano.locations['C']);
 
-var normieBass = new bass("Normie Bass", ['G', 'D', 'A', 'E'], 21);
+var normieBass = new Bass("Normie Bass", ['G', 'D', 'A', 'E'], 21);
 console.log(normieBass.locations['E']);
 
 
