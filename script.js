@@ -1,17 +1,16 @@
-class fretboard {
-    constructor(name_of_tunings) {
-        this.name_of_tuning = name_of_tunings;
-        this.num_of_strings = 6;
-        this.string_tuning = ['E', 'B', 'G', 'D', 'A', 'E'];
-        
-        this.num_of_frets = 21;
-
+class instrument {
+    constructor(title, type, num_of_runs, run_tunings, num_of_steps) {
+        this.title = title;
+        this.type = type;
+        this.num_of_runs = num_of_runs;
+        this.run_tunings = run_tunings;
+        this.num_of_steps = num_of_steps;
         this.locations = {};
         this.locations_skeleton();
-        this.locations_fill();    
+        this.locations_fill();
     }
     locations_skeleton() {
-        // creating skeleton entries
+        // adding skeleton entries
         var note_name;
         for (var i = 0; i < scale.scale_notes.length; i++) {
             for (var j = 0; j < scale.scale_notes[0].length; j++) {
@@ -23,10 +22,10 @@ class fretboard {
     locations_fill() {
         // filling in entries        
         var note_name;
-        for (var i = 0; i < this.num_of_strings; i++) {
-            note_name = this.string_tuning[i];
+        for (var i = 0; i < this.num_of_runs; i++) {
+            note_name = this.run_tunings[i];
 
-            for (var j = 0; j <= this.num_of_frets; j++) {
+            for (var j = 0; j <= this.num_of_steps; j++) {
                 for (var k = 0; k < 3; k++) {
                     note_name = scale.equivalent_note_shift(note_name);
                     this.locations[note_name].push([i, j]);
@@ -36,6 +35,22 @@ class fretboard {
         }
     }
 }
+class guitar extends instrument {
+    constructor(title, run_tunings, num_of_steps) {
+        super(title, "guitar", 6, run_tunings, num_of_steps);  
+    }
+}
+class bass extends instrument {
+    constructor(title, run_tunings, num_of_steps) {
+        super(title, "bass", 4, run_tunings, num_of_steps);
+    }
+}
+class piano extends instrument {
+    constructor(title, num_of_steps) {
+        super(title, "piano", 1, ['C'], num_of_steps);
+    }
+}
+
 var scale = {
     scale_notes: [
         ['A', 'G##', 'Bbb'],
@@ -84,19 +99,24 @@ var scale = {
     }
 }
 
-var guitar = new fretboard("Open E");
+var openE = new guitar("Open E", ['E', 'B', 'G', 'D', 'A', 'E'], 21);
+console.log(openE.locations['E']);
 
-console.log(guitar.locations['E']);
+var normiePiano = new piano("Normie Piano", 24);
+console.log(normiePiano.locations['C']);
+
+var normieBass = new bass("Normie Bass", ['G', 'D', 'A', 'E'], 21);
+console.log(normieBass.locations['E']);
 
 
 
 
-// var num_of_frets = standard_fretboard.num_of_frets;
+// var num_of_steps = standard_fretboard.num_of_steps;
 // var num_of_strings = standard_fretboard.num_of_strings;
 
 // function layout(string_num, string_tuning) {
 //     // Setting fret_index to starting location in ordered_notes list, based on string tuning
-//     for (var i = 0; i < num_of_frets - 1; i++) {
+//     for (var i = 0; i < num_of_steps - 1; i++) {
 //         for (var j = 0; j < num_of_strings - 1; j++) {
 //             if (string_tuning == ordered_notes[i][j]) {
 //                 var fret_index = i;
@@ -105,8 +125,8 @@ console.log(guitar.locations['E']);
 //     }
 
 //     // Updating all parts html grid to have note names listed
-//     for (i = 0; i <= num_of_frets; i++) {
-//         if (fret_index > num_of_frets - 1) {
+//     for (i = 0; i <= num_of_steps; i++) {
+//         if (fret_index > num_of_steps - 1) {
 //             fret_index = 0;
 //         }
 //         var id = "" + i + "," + string_num
