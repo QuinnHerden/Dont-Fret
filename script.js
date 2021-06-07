@@ -1,72 +1,34 @@
 class fretboard {
     constructor(name_of_tunings) {
         this.name_of_tuning = name_of_tunings;
-        this.num_of_frets = 21;
         this.num_of_strings = 6;
-        this.tuning = ['E', 'B', 'G', 'D', 'A', 'E'];
-        this.locations = {
-            'A': [],
-            'G##': [],
-            'Bbb': [],
-
-            'A#': [],
-            'Bb': [],
-            'Cbb': [],
-    
-            'B': [],
-            'A##': [],
-            'Cb': [],
-    
-            'C': [],
-            'B#': [],
-            'Dbb': [],
-            
-            'C#': [],
-            'B##': [],
-            'Db': [],
-    
-            'D': [],
-            'C##': [],
-            'Ebb': [],
-    
-            'D#': [],
-            'Eb': [],
-            'Fbb': [],
-            
-            'E': [],
-            'D##': [],
-            'Fb': [],
-    
-            'F': [],
-            'E#': [],
-            'Gbb': [],
-    
-            'F#': [],
-            'E##': [],
-            'Gb': [],
-    
-            'G': [],
-            'F##': [],
-            'Abb': [],
-            
-            'G#': [],
-            'Ab': [],
-            'n/a': []
-        };
-        this.mapNotes();    
-    }
-
-    mapNotes() {
-        var scale_starting_index = -1;
-        var note_name = "";
+        this.string_tuning = ['E', 'B', 'G', 'D', 'A', 'E'];
         
-        for (var i = 0; i < this.num_of_strings; i++) {
-            note_name = this.tuning[i];
-            scale_starting_index = scale.find(note_name)[0];
+        this.num_of_frets = 21;
 
-            for (var j = 0; j < this.num_of_frets + 1; j++) {
+        this.locations = {};
+        this.locations_skeleton();
+        this.locations_fill();    
+    }
+    locations_skeleton() {
+        // creating skeleton entries
+        var note_name;
+        for (var i = 0; i < scale.scale_notes.length; i++) {
+            for (var j = 0; j < scale.scale_notes[0].length; j++) {
+                note_name = scale.scale_notes[i][j];
+                this.locations[note_name] = [];
+            }
+        }
+    }
+    locations_fill() {
+        // filling in entries        
+        var note_name;
+        for (var i = 0; i < this.num_of_strings; i++) {
+            note_name = this.string_tuning[i];
+
+            for (var j = 0; j <= this.num_of_frets; j++) {
                 for (var k = 0; k < 3; k++) {
-                    note_name = scale.shift_name(note_name);
+                    note_name = scale.shift_note(note_name);
                     this.locations[note_name].push([i, j]);
                 }
                 note_name = scale.up_half_step(note_name);
@@ -111,7 +73,7 @@ var scale = {
         }
         return this.scale_notes[temp[0]][temp[1]];
     },
-    shift_name: function(current_note) {
+    shift_note: function(current_note) {
         var temp = this.find(current_note);
         if (temp[1] < 2) {
             temp[1]++;
