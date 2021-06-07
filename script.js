@@ -1,7 +1,7 @@
 class fretboard {
     constructor(name_of_tunings) {
         this.name_of_tuning = name_of_tunings;
-        this.num_of_frets = 12;
+        this.num_of_frets = 21;
         this.num_of_strings = 6;
         this.tuning = ['E', 'B', 'G', 'D', 'A', 'E'];
         this.locations = {
@@ -60,8 +60,6 @@ class fretboard {
         var scale_starting_index = -1;
         var note_name = "";
         
-        // debugger;
-
         for (var i = 0; i < this.num_of_strings; i++) {
             note_name = this.tuning[i];
             scale_starting_index = scale.find(note_name)[0];
@@ -69,8 +67,6 @@ class fretboard {
             for (var j = 0; j < this.num_of_frets + 1; j++) {
                 for (var k = 0; k < 3; k++) {
                     note_name = scale.shift_name(note_name);
-                    // this.note_locations['E'].push([i, j]);
-                    // console.log(note_name);
                     this.locations[note_name].push([i, j]);
                 }
                 note_name = scale.up_half_step(note_name);
