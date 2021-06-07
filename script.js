@@ -28,7 +28,7 @@ class fretboard {
 
             for (var j = 0; j <= this.num_of_frets; j++) {
                 for (var k = 0; k < 3; k++) {
-                    note_name = scale.shift_note(note_name);
+                    note_name = scale.equivalent_note_shift(note_name);
                     this.locations[note_name].push([i, j]);
                 }
                 note_name = scale.up_half_step(note_name);
@@ -73,7 +73,7 @@ var scale = {
         }
         return this.scale_notes[temp[0]][temp[1]];
     },
-    shift_note: function(current_note) {
+    equivalent_note_shift: function(current_note) {
         var temp = this.find(current_note);
         if (temp[1] < 2) {
             temp[1]++;
