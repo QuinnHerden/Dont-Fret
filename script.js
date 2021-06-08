@@ -89,11 +89,6 @@ class Instrument {
 }
 class Guitar extends Instrument {
     constructor(tuning_of_runs) {
-        super("fret", tuning_of_runs);  
-    }
-}
-class Bass extends Instrument {
-    constructor(tuning_of_runs) {
         super("fret", tuning_of_runs);
     }
 }
@@ -144,21 +139,13 @@ function show_board_util(instrument, selected_notes) {
 
 document.addEventListener('keyup', event => {
     if (event.code === 'Digit1') {
-        var normieBass = new Bass(['G', 'D', 'A', 'E']);
-        show_board(normieBass, ['C', 'D', 'E', 'F', 'G', 'A', 'B'])
+        var normiePiano = new Piano(['C']);
+        show_board(normiePiano, ['C', 'D', 'E', 'F', 'G', 'A', 'B'])
     }
 })
-
 document.addEventListener('keyup', event => {
     if (event.code === 'Digit2') {
         var normieGuitar = new Guitar(['E', 'B', 'G', 'D', 'A', 'E']);
-        show_board(normieGuitar, ['C', 'D', 'E', 'F', 'G', 'A', 'B'])
-    }
-})
-
-document.addEventListener('keyup', event => {
-    if (event.code === 'Digit3') {
-        var normiePiano = new Piano(['C']);
-        show_board(normiePiano, ['C', 'D', 'E', 'F', 'G', 'A', 'B'])
+        show_board(normieGuitar, ['C', 'G', 'E'])
     }
 })
