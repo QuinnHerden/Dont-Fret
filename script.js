@@ -54,10 +54,10 @@ class Chromatic extends Scale {
 class Instrument {
     constructor(type, num_of_runs, tuning_of_runs, steps_in_run) {
         this.type = type;
-        this.scale = new Chromatic();
         this.num_of_runs = num_of_runs;
         this.tuning_of_runs = tuning_of_runs;
         this.steps_in_run = steps_in_run;
+        this.scale = new Chromatic();
         this.note_indexes = {};
         this.note_indexs_skeleton();
         this.note_indexs_fill();
