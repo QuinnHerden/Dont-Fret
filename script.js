@@ -105,11 +105,11 @@ class Display {
         this.instrument = new Guitar(['E', 'B', 'G', 'D']);
         this.display_notes = ['C'];
     }
-    show_board(instrument, selected_notes) {
+    show_board() {
         var div;
         var id_string;
     
-        for (var i = 0; i < 4; i++) {
+        for (var i = 0; i < this.instrument.num_of_runs; i++) {
             div = document.createElement('div');
             div.id = 'run' + i;
             div.className = 'run';
@@ -124,36 +124,28 @@ class Display {
                 document.getElementById(id_string).appendChild(div);
             }
         }
-        show_board_util(instrument, selected_notes);
+        this.show_board_util();
     }
-    show_board_util(instrument, selected_notes) {
+    show_board_util() {
         var to_fill;
         var id_string;
     
-        for (var i = 0; i < selected_notes.length; i++) {
-            to_fill = instrument.note_indexes[selected_notes[i]];
+        for (var i = 0; i < this.display_notes.length; i++) {
+            to_fill = this.instrument.note_indexes[this.display_notes[i]];
     
             for (var j = 0; j < to_fill.length; j++) {
                 id_string = '' + to_fill[j][0] + ',' + to_fill[j][1];
-                document.getElementById(id_string).innerHTML = selected_notes[i];
+                document.getElementById(id_string).innerHTML = this.display_notes[i];
             }
         }
     }
 }
 
-disp = new Display();
-disp.show_board();
 
 
-// document.addEventListener('keyup', event => {
-//     if (event.code === 'Digit1') {
-//         var normiePiano = new Piano(['C']);
-//         show_board(normiePiano, ['C', 'D', 'E', 'F', 'G', 'A', 'B'])
-//     }
-// })
-// document.addEventListener('keyup', event => {
-//     if (event.code === 'Digit2') {
-//         var normieGuitar = new Guitar(['E', 'B', 'G', 'D', 'A', 'E']);
-//         show_board(normieGuitar, ['C', 'G', 'E'])
-//     }
-// })
+document.addEventListener('keyup', event => {
+    if (event.code === 'Space') {
+        var disp = new Display();
+        disp.show_board();
+    }
+})
