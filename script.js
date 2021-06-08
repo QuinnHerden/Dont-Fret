@@ -1,72 +1,30 @@
-class Instrument {
-    constructor(title, type, num_of_runs, run_tunings, num_of_steps) {
-        this.western_scale = new Chromatic();
-
-        this.title = title;
-        this.type = type;
-        this.num_of_runs = num_of_runs;
-        this.run_tunings = run_tunings;
-        this.num_of_steps = num_of_steps;
-        this.locations = {};
-        this.locations_skeleton();
-        this.locations_fill();
-    }
-    locations_skeleton() {
-        // adding skeleton entries
-        var note_name;
-        for (var i = 0; i < old_scale.scale_notes.length; i++) {
-            for (var j = 0; j < old_scale.scale_notes[0].length; j++) {
-                note_name = old_scale.scale_notes[i][j];
-                this.locations[note_name] = [];
-            }
-        }
-    }
-    locations_fill() {
-        // filling in entries        
-        var note_name;
-        for (var i = 0; i < this.num_of_runs; i++) {
-            note_name = this.run_tunings[i];
-
-            for (var j = 0; j <= this.num_of_steps; j++) {
-                for (var k = 0; k < 3; k++) {
-                    note_name = old_scale.equivalent_note_shift(note_name);
-                    this.locations[note_name].push([i, j]);
-                }
-                note_name = old_scale.up_half_step(note_name);
-            }
-        }
-    }
-}
-class Guitar extends Instrument {
-    constructor(title, run_tunings, num_of_steps) {
-        super(title, "fret", 6, run_tunings, num_of_steps);  
-    }
-}
-class Bass extends Instrument {
-    constructor(title, run_tunings, num_of_steps) {
-        super(title, "fret", 4, run_tunings, num_of_steps);
-    }
-}
-class Piano extends Instrument {
-    constructor(title, num_of_steps) {
-        super(title, "keys", 1, ['C'], num_of_steps);
-    }
-}
-
 class Scale {
-    constructor(included_notes) {
-        this.included_notes = included_notes;
+    constructor(notes, intervals) {
+        this.notes = notes;
+        this.intervals = intervals;
         this.scale_map = {};
-        this.scale_map_fill();
+        this.scale_map_create();
     }
-    scale_map_fill() {
-        var note_name;
-        for (var i = 0; i < this.included_notes.length; i++) {
-            for (var j = 0; j < this.included_notes[0].length; j++) {
-                note_name = this.included_notes[i][j];
-                this.scale_map[note_name] = [i, j];
+    scale_map_create() {
+        var current_note;
+        for (var i = 0; i < this.notes.length; i++) {
+            for (var j = 0; j < this.notes[0].length; j++) {
+                current_note = this.notes[i][j];
+                this.scale_map[current_note] = [i, j];
             }
         }
+    }
+    move_up_scale(current_note, amount) {
+        return this.notes[(this.scale_map[current_note][0] + amount) % this.notes.length];
+    }
+    move_down_scale(current_note, amount) {
+        return this.notes[(this.scale_map[current_note][0] - amount) % this.notes.length];
+    }
+    half_step(current_note) {
+        return this.move_up_scale(current_note, this.intervals['half_step']);
+    }
+    whole_step(current_note) {
+        return this.move_up_scale(current_note, this.intervals['whole_step']);
     }
 }
 class Chromatic extends Scale {
@@ -84,93 +42,100 @@ class Chromatic extends Scale {
             ['F#', 'E##', 'Gb'],
             ['G', 'F##', 'Abb'],
             ['G#', 'Ab']
-            ]);
+        ],  
+        {
+            'half_step': 1,
+            'whole_step': 2
+        });
+
     }
 }
 
-
-
-
-
-
-
-
-var old_scale = {
-    scale_notes: [
-        ['A', 'G##', 'Bbb'],
-        ['A#', 'Bb', 'Cbb'],
-        ['B', 'A##', 'Cb'],
-        ['C', 'B#', 'Dbb'],
-        ['C#', 'B##', 'Db'],
-        ['D', 'C##', 'Ebb'],
-        ['D#', 'Eb', 'Fbb'],
-        ['E', 'D##', 'Fb'],
-        ['F', 'E#', 'Gbb'],
-        ['F#', 'E##', 'Gb'],
-        ['G', 'F##', 'Abb'],
-        ['G#', 'Ab', 'n/a'],
-    ],
-
-    find: function(search_note) {
-        var location = [-1, -1];
-        for (var i = 0; i < this.scale_notes.length; i++) {
-            for (var j = 0; j < this.scale_notes[0].length; j++) {
-                if (search_note == this.scale_notes[i][j]) {
-                    location[0] = i;
-                    location[1] = j;
-                }
+class Instrument {
+    constructor(type, num_of_runs, tuning_of_runs, steps_in_run) {
+        this.type = type;
+        this.scale = new Chromatic();
+        this.num_of_runs = num_of_runs;
+        this.tuning_of_runs = tuning_of_runs;
+        this.steps_in_run = steps_in_run;
+        this.note_indexes = {};
+        this.note_indexs_skeleton();
+        this.note_indexs_fill();
+    }
+    note_indexs_skeleton() {
+        var current_note;
+        for (var i = 0; i < this.scale.notes.length; i++) {
+            for (var j = 0; j < this.scale.notes[0].length; j++) {
+                current_note = this.scale.notes[i][j];
+                this.note_indexes[current_note] = [];
             }
         }
-        return location;
-    },
-    up_half_step: function(current_note) {
-        var temp = this.find(current_note);
-        if (temp[0] < 11) {
-            temp[0]++;
-        } else {
-            temp[0] = 0;
+    }
+    note_indexs_fill() {
+        var current_note;
+        var current_notes;
+        for (var i = 0; i < this.num_of_runs; i++) {
+            current_note = this.tuning_of_runs[i];
+            current_notes = this.scale.notes[this.scale.scale_map[current_note][0]];
+
+            for (var j = 0; j < this.steps_in_run; j++) {
+                for (var k = 0; k < current_notes.length; k++) {
+                    this.note_indexes[current_notes[k]].push([i, j]);
+                }
+                current_notes = this.scale.move_up_scale(current_notes[0], 1);
+            }
         }
-        return this.scale_notes[temp[0]][temp[1]];
-    },
-    equivalent_note_shift: function(current_note) {
-        var temp = this.find(current_note);
-        if (temp[1] < 2) {
-            temp[1]++;
-        } else {
-            temp[1] = 0;
-        }
-        return this.scale_notes[temp[0]][temp[1]];
+    }
+}
+class Guitar extends Instrument {
+    constructor(tuning_of_runs, steps_in_run) {
+        super("fret", 6, tuning_of_runs, steps_in_run);  
+    }
+}
+class Bass extends Instrument {
+    constructor(tuning_of_runs, steps_in_run) {
+        super("fret", 4, tuning_of_runs, steps_in_run);
+    }
+}
+class Piano extends Instrument {
+    constructor(tuning_of_runs, steps_in_run) {
+        super("keys", 1, tuning_of_runs, steps_in_run);
     }
 }
 
-var openE = new Guitar("Open E", ['E', 'B', 'G', 'D', 'A', 'E'], 21);
-console.log(openE.locations['E']);
+var openE = new Guitar(['E', 'B', 'G', 'D', 'A', 'E'], 22);
+console.log(openE.note_indexes['A']);
 
-var normiePiano = new Piano("Normie Piano", 24);
-console.log(normiePiano.locations['C']);
+var normiePiano = new Piano(['C'], 25);
+console.log(normiePiano.note_indexes['C']);
 
-var normieBass = new Bass("Normie Bass", ['G', 'D', 'A', 'E'], 21);
-console.log(normieBass.locations['E']);
-
-
+var normieBass = new Bass(['G', 'D', 'A', 'E'], 22);
+console.log(normieBass.note_indexes['E']);
 
 
-// var num_of_steps = standard_fretboard.num_of_steps;
+console.log(normieBass.scale.whole_step('A'));
+
+// console.log(normieBass.scale.scale_map);
+
+// console.log(normiePiano.scale.move_up_scale('G#', 2));
+
+
+// var steps_in_run = standard_fretboard.steps_in_run;
 // var num_of_strings = standard_fretboard.num_of_strings;
 
 // function layout(string_num, string_tuning) {
-//     // Setting fret_index to starting location in ordered_notes list, based on string tuning
-//     for (var i = 0; i < num_of_steps - 1; i++) {
-//         for (var j = 0; j < num_of_strings - 1; j++) {
-//             if (string_tuning == ordered_notes[i][j]) {
-//                 var fret_index = i;
+    //     // Setting fret_index to starting location in ordered_notes list, based on string tuning
+    //     for (var i = 0; i < steps_in_run - 1; i++) {
+        //         for (var j = 0; j < num_of_strings - 1; j++) {
+            //             if (string_tuning == ordered_notes[i][j]) {
+                //                 var fret_index = i;
 //             }
 //         }
 //     }
 
 //     // Updating all parts html grid to have note names listed
-//     for (i = 0; i <= num_of_steps; i++) {
-//         if (fret_index > num_of_steps - 1) {
+//     for (i = 0; i <= steps_in_run; i++) {
+//         if (fret_index > steps_in_run - 1) {
 //             fret_index = 0;
 //         }
 //         var id = "" + i + "," + string_num
