@@ -47,7 +47,6 @@ class Chromatic extends Scale {
             'half_step': 1,
             'whole_step': 2
         });
-
     }
 }
 
