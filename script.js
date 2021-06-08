@@ -30,10 +30,7 @@ class Scale {
 class Chromatic extends Scale {
     constructor() {
         super([
-            ['A', 'G##', 'Bbb'],
-            ['A#', 'Bb', 'Cbb'],
             ['C', 'B#', 'Dbb'],
-            ['B', 'A##', 'Cb'],
             ['C#', 'B##', 'Db'],
             ['D', 'C##', 'Ebb'],
             ['D#', 'Eb', 'Fbb'],
@@ -41,7 +38,10 @@ class Chromatic extends Scale {
             ['F', 'E#', 'Gbb'],
             ['F#', 'E##', 'Gb'],
             ['G', 'F##', 'Abb'],
-            ['G#', 'Ab']
+            ['G#', 'Ab'],
+            ['A', 'G##', 'Bbb'],
+            ['A#', 'Bb', 'Cbb'],
+            ['B', 'A##', 'Cb']
         ],  
         {
             'half_step': 1,
@@ -104,46 +104,14 @@ class Piano extends Instrument {
 }
 
 var openE = new Guitar(['E', 'B', 'G', 'D', 'A', 'E'], 22);
-console.log(openE.note_indexes['A']);
+// console.log(openE.note_indexes['A']);
 
 var normiePiano = new Piano(['C'], 25);
-console.log(normiePiano.note_indexes['C']);
+// console.log(normiePiano.note_indexes['C']);
 
 var normieBass = new Bass(['G', 'D', 'A', 'E'], 22);
 console.log(normieBass.note_indexes['E']);
 
-
-console.log(normieBass.scale.whole_step('A'));
-
-// console.log(normieBass.scale.scale_map);
-
-// console.log(normiePiano.scale.move_up_scale('G#', 2));
-
-
-// var steps_in_run = standard_fretboard.steps_in_run;
-// var num_of_strings = standard_fretboard.num_of_strings;
-
-// function layout(string_num, string_tuning) {
-    //     // Setting fret_index to starting location in ordered_notes list, based on string tuning
-    //     for (var i = 0; i < steps_in_run - 1; i++) {
-        //         for (var j = 0; j < num_of_strings - 1; j++) {
-            //             if (string_tuning == ordered_notes[i][j]) {
-                //                 var fret_index = i;
-//             }
-//         }
-//     }
-
-//     // Updating all parts html grid to have note names listed
-//     for (i = 0; i <= steps_in_run; i++) {
-//         if (fret_index > steps_in_run - 1) {
-//             fret_index = 0;
-//         }
-//         var id = "" + i + "," + string_num
-//         document.getElementById(id).innerHTML= ordered_notes[fret_index];
-        
-//         fret_index ++;
-//     }
-// }
 
 
 // document.addEventListener('keyup', event => {
