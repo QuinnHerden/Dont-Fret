@@ -1,7 +1,7 @@
 class Scale {
-    constructor(notes, intervals) {
+    constructor(notes, semitone) {
         this.notes = notes;
-        this.intervals = intervals;
+        this.semitone = semitone;
         this.scale_map = {};
         this.scale_map_create();
     }
@@ -21,15 +21,16 @@ class Scale {
         return this.notes[(this.scale_map[current_note][0] - amount) % this.notes.length];
     }
     half_step(current_note) {
-        return this.move_up_scale(current_note, this.intervals['half_step']);
+        return this.move_up_scale(current_note, this.semitone);
     }
     whole_step(current_note) {
-        return this.move_up_scale(current_note, this.intervals['whole_step']);
+        return this.move_up_scale(current_note, this.semitone * 2);
     }
 }
 class Chromatic extends Scale {
     constructor() {
-        super([
+        super(
+        [
             ['C', 'B#', 'Dbb'],
             ['C#', 'B##', 'Db'],
             ['D', 'C##', 'Ebb'],
@@ -42,20 +43,20 @@ class Chromatic extends Scale {
             ['A', 'G##', 'Bbb'],
             ['A#', 'Bb', 'Cbb'],
             ['B', 'A##', 'Cb']
-        ],  
-        {
-            'half_step': 1,
-            'whole_step': 2
-        });
+        ],
+        1
+        );
     }
 }
 
+
+
 class Instrument {
-    constructor(type, num_of_runs, tuning_of_runs, steps_in_run) {
+    constructor(type, tuning_of_runs) {
         this.type = type;
-        this.num_of_runs = num_of_runs;
         this.tuning_of_runs = tuning_of_runs;
-        this.steps_in_run = steps_in_run;
+        this.steps_in_run = 22;
+        this.num_of_runs = tuning_of_runs.length;
         this.scale = new Chromatic();
         this.note_indexes = {};
         this.note_indexs_skeleton();
@@ -87,34 +88,77 @@ class Instrument {
     }
 }
 class Guitar extends Instrument {
-    constructor(tuning_of_runs, steps_in_run) {
-        super("fret", 6, tuning_of_runs, steps_in_run);  
+    constructor(tuning_of_runs) {
+        super("fret", tuning_of_runs);  
     }
 }
 class Bass extends Instrument {
-    constructor(tuning_of_runs, steps_in_run) {
-        super("fret", 4, tuning_of_runs, steps_in_run);
+    constructor(tuning_of_runs) {
+        super("fret", tuning_of_runs);
     }
 }
 class Piano extends Instrument {
-    constructor(tuning_of_runs, steps_in_run) {
-        super("keys", 1, tuning_of_runs, steps_in_run);
+    constructor(tuning_of_runs) {
+        super("keys", tuning_of_runs);
     }
 }
 
-var openE = new Guitar(['E', 'B', 'G', 'D', 'A', 'E'], 22);
-// console.log(openE.note_indexes['A']);
-
-var normiePiano = new Piano(['C'], 25);
-// console.log(normiePiano.note_indexes['C']);
-
-var normieBass = new Bass(['G', 'D', 'A', 'E'], 22);
-console.log(normieBass.note_indexes['E']);
 
 
+function show_board(instrument, selected_notes) {
+    var div;
+    var id_string;
 
-// document.addEventListener('keyup', event => {
-//     if (event.code === 'Space') {
+    for (var i = 0; i < instrument.num_of_runs; i++) {
+        div = document.createElement('div');
+        div.id = 'run' + i;
+        div.className = 'run';
+        document.getElementById('runs').appendChild(div);
 
-//     }
-//   })
+        for (var j = 0; j < instrument.steps_in_run; j++) {
+            div = document.createElement('div');
+            div.id = '' + i + ',' + j;
+            div.className = 'step';
+            // div.innerHTML = '';
+            id_string = 'run' + i;
+            document.getElementById(id_string).appendChild(div);
+        }
+    }
+    show_board_util(instrument, selected_notes);
+}
+function show_board_util(instrument, selected_notes) {
+    var to_fill;
+    var id_string;
+
+    for (var i = 0; i < selected_notes.length; i++) {
+        to_fill = instrument.note_indexes[selected_notes[i]];
+
+        for (var j = 0; j < to_fill.length; j++) {
+            id_string = '' + to_fill[j][0] + ',' + to_fill[j][1];
+            document.getElementById(id_string).innerHTML = selected_notes[i];
+        }
+    }
+}
+
+
+
+document.addEventListener('keyup', event => {
+    if (event.code === 'Digit1') {
+        var normieBass = new Bass(['G', 'D', 'A', 'E']);
+        show_board(normieBass, ['C', 'D', 'E', 'F', 'G', 'A', 'B'])
+    }
+})
+
+document.addEventListener('keyup', event => {
+    if (event.code === 'Digit2') {
+        var normieGuitar = new Guitar(['E', 'B', 'G', 'D', 'A', 'E']);
+        show_board(normieGuitar, ['C', 'D', 'E', 'F', 'G', 'A', 'B'])
+    }
+})
+
+document.addEventListener('keyup', event => {
+    if (event.code === 'Digit3') {
+        var normiePiano = new Piano(['C']);
+        show_board(normiePiano, ['C', 'D', 'E', 'F', 'G', 'A', 'B'])
+    }
+})
