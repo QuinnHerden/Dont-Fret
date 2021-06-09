@@ -153,6 +153,12 @@ class Display {
     }
 }
 
+
+
+
+
+
+
 var disp = new Display();
 
 document.addEventListener('keyup', event => {
@@ -166,3 +172,5 @@ document.addEventListener('keyup', event => {
         disp.clear_board();
     }
 })
+
+// test
