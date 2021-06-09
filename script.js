@@ -32,17 +32,17 @@ class Chromatic extends Scale {
         super(
         [
             ['C', 'B#', 'Dbb'],
-            ['C#', 'B##', 'Db'],
+            ['C#', 'Db', 'B##'],
             ['D', 'C##', 'Ebb'],
             ['D#', 'Eb', 'Fbb'],
-            ['E', 'D##', 'Fb'],
+            ['E', 'Fb', 'D##'],
             ['F', 'E#', 'Gbb'],
-            ['F#', 'E##', 'Gb'],
+            ['F#', 'Gb', 'E##'],
             ['G', 'F##', 'Abb'],
             ['G#', 'Ab'],
             ['A', 'G##', 'Bbb'],
             ['A#', 'Bb', 'Cbb'],
-            ['B', 'A##', 'Cb']
+            ['B', 'Cb', 'A##']
         ],
         1
         );
@@ -147,9 +147,9 @@ class Display {
             document.getElementById(id_string).appendChild(element);
 
             // Create line breaks
-            // element = document.createElement('br');
-            // document.getElementById(id_string).appendChild(element);
-            // document.getElementById(id_string).appendChild(element);
+            element = document.createElement('br');
+            document.getElementById(id_string).appendChild(element);
+            document.getElementById(id_string).appendChild(element);
         }
         
     }
@@ -224,7 +224,8 @@ class Display {
 
 var disp = new Display();
 function start() {
-    disp.create_user_selection()
+    disp.create_user_selection();
+    disp.show_board();
 }
 
 
