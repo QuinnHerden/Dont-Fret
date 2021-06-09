@@ -50,7 +50,6 @@ class Chromatic extends Scale {
 }
 
 
-
 class Instrument {
     constructor(type, tuning_of_runs) {
         this.type = type;
@@ -99,7 +98,6 @@ class Piano extends Instrument {
 }
 
 
-
 class Display {
     constructor() {
         this.instrument = new Guitar(['E', 'B', 'G', 'D', 'A', 'E']);
@@ -116,7 +114,6 @@ class Display {
             
             element = document.createElement('div');
             element.id = 'notes[' + i + ']';
-            // div.className = 'note_group';
             document.getElementById('note_selection').appendChild(element);
 
             for (var j = 0; j < this.instrument.scale.notes[i].length; j++) {
@@ -221,23 +218,8 @@ class Display {
 }
 
 
-
 var disp = new Display();
 function start() {
     disp.create_user_selection();
     disp.show_board();
 }
-
-
-
-document.addEventListener('keyup', event => {
-    if (event.code === 'Space') {
-        disp.change_display_notes(['C']);
-        disp.show_board();
-    }
-})
-document.addEventListener('keyup', event => {
-    if (event.code === 'Digit1') {
-        disp.clear_board();
-    }
-})
