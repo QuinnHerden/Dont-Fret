@@ -149,3 +149,5 @@ document.addEventListener('keyup', event => {
         disp.show_board();
     }
 })
+
+// display
