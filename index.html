@@ -3,13 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="wclassth=device-wclassth, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <script src="script.js"></script>
     <title>No Fret Song Writing</title>
 </head>
 
-<body>
+<body onload="start()">
+    <div id="note_selection">
+    </div>
+    <div>        
+        <button onclick="disp.show_board()">show</button>
+        <br><br>
+    </div>
+
+    
+
     <div class="runs" id="runs">
     </div>
 

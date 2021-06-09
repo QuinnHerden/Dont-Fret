@@ -102,16 +102,83 @@ class Piano extends Instrument {
 
 class Display {
     constructor() {
-        this.instrument = new Guitar(['E', 'B', 'G', 'D']);
+        this.instrument = new Guitar(['E', 'B', 'G', 'D', 'A', 'E']);
         this.display_notes = [];
+        this.shown = false;
     }
+
+    create_user_selection() {
+        var element;
+        var id_string;
+        
+        for (var i = 0; i < this.instrument.scale.notes.length; i++) {
+            id_string = 'notes[' + i + ']';
+            
+            element = document.createElement('div');
+            element.id = 'notes[' + i + ']';
+            // div.className = 'note_group';
+            document.getElementById('note_selection').appendChild(element);
+
+            for (var j = 0; j < this.instrument.scale.notes[i].length; j++) {
+                // Create note radio buttons
+                element = document.createElement('input');
+                element.type = 'radio';
+                element.id = '' + this.instrument.scale.notes[i][j];
+                element.name = i;
+                document.getElementById(id_string).appendChild(element);
+
+                // Create note label
+                element = document.createElement('label')
+                element.innerHTML = '' + this.instrument.scale.notes[i][j];
+                document.getElementById(id_string).appendChild(element);
+            }
+
+            // Create none radio button
+            element = document.createElement('input');
+            element.type = 'radio';
+            element.id = 'None';
+            element.name = i;
+            element.checked = true;
+            document.getElementById(id_string).appendChild(element);
+
+            // Create none label
+            element = document.createElement('label')
+            element.innerHTML = 'None';
+            document.getElementById(id_string).appendChild(element);
+
+            // Create line breaks
+            // element = document.createElement('br');
+            // document.getElementById(id_string).appendChild(element);
+            // document.getElementById(id_string).appendChild(element);
+        }
+        
+    }
+
     change_display_notes(selected_notes) {
         this.display_notes = selected_notes;
     }
+    get_selected_notes() {
+        var current_note;
+        var ret_array = [];
+        for (var i = 0; i < this.instrument.scale.notes.length; i++) {
+            for (var j = 0; j < this.instrument.scale.notes[i].length; j++) {
+                current_note = this.instrument.scale.notes[i][j];
+                if (document.getElementById(current_note).checked) {
+                    ret_array.push(current_note);
+                }
+            }
+        }
+        return ret_array;
+    }
     show_board() {
+        this.change_display_notes(this.get_selected_notes());
+        if(this.shown == true) {
+            this.clear_board();
+        }
+        this.shown = true;
+        
         var div;
         var id_string;
-    
         for (var i = 0; i < this.instrument.num_of_runs; i++) {
             div = document.createElement('div');
             div.id = 'run' + i;
@@ -155,11 +222,12 @@ class Display {
 
 
 
-
-
-
-
 var disp = new Display();
+function start() {
+    disp.create_user_selection()
+}
+
+
 
 document.addEventListener('keyup', event => {
     if (event.code === 'Space') {
