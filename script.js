@@ -172,5 +172,3 @@ document.addEventListener('keyup', event => {
         disp.clear_board();
     }
 })
-
-// test
