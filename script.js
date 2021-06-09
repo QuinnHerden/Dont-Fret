@@ -103,7 +103,10 @@ class Piano extends Instrument {
 class Display {
     constructor() {
         this.instrument = new Guitar(['E', 'B', 'G', 'D']);
-        this.display_notes = ['C'];
+        this.display_notes = [];
+    }
+    change_display_notes(selected_notes) {
+        this.display_notes = selected_notes;
     }
     show_board() {
         var div;
@@ -139,15 +142,27 @@ class Display {
             }
         }
     }
+    clear_board() {
+        var id_string;
+
+        for (var i = 0; i < this.instrument.num_of_runs; i++) {
+            id_string = 'run' + i;
+            document.getElementById(id_string).remove();
+
+        }
+    }
 }
 
-
+var disp = new Display();
 
 document.addEventListener('keyup', event => {
     if (event.code === 'Space') {
-        var disp = new Display();
+        disp.change_display_notes(['C']);
         disp.show_board();
     }
 })
-
-// display
+document.addEventListener('keyup', event => {
+    if (event.code === 'Digit1') {
+        disp.clear_board();
+    }
+})
