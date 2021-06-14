@@ -175,6 +175,7 @@ class Display {
         
         var div;
         var img;
+        var id_string;
         for (var i = 0; i < this.instrument.num_of_runs; i++) {
             div = document.createElement('div');
             div.id = 'run' + i;
@@ -182,14 +183,21 @@ class Display {
             document.getElementById('runs').appendChild(div);
     
             for (var j = 0; j < this.instrument.steps_in_run; j++) {
+                id_string = '' + i + ',' + j;
+
                 div = document.createElement('div');
-                div.id = '' + i + ',' + j;
+                div.id = id_string;
                 div.className = 'step';
                 document.getElementById('run' + i).appendChild(div);
-
+                
                 img = document.createElement('img');
                 img.src = 'fret.svg';
-                document.getElementById(div.id).appendChild(img);
+                document.getElementById(id_string).appendChild(img);
+                
+                div = document.createElement('div');
+                div.id = 't' + id_string;
+                div.className = 'fret';
+                document.getElementById(id_string).appendChild(div);
             }
         }
         this.show_board_util();
@@ -203,7 +211,7 @@ class Display {
     
             for (var j = 0; j < to_fill.length; j++) {
                 id_string = '' + to_fill[j][0] + ',' + to_fill[j][1];
-                document.getElementById(id_string).innerHTML = this.display_notes[i];
+                document.getElementById('t' + id_string).innerHTML = this.display_notes[i];
             }
         }
     }

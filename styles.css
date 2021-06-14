@@ -5,13 +5,15 @@ body {
 .run {
     display: grid;
     grid-template-columns: repeat(22, 1fr);
-    grid-template-rows: repeat(1, 25px);
+    grid-template-rows: repeat(1, 30px);
 }
 .step {
-    /* position: absolute; */
-    /* top: 50%; */
-    /* left: 50%; */
-    /* transform: translate(-50%, -50%); */
-    /* border-style: solid; */
-    /* border-color: rgb(66, 66, 65); */
+    position: relative;
+    text-align: center;
+}
+.fret {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
