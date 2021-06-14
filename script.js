@@ -174,7 +174,7 @@ class Display {
         this.shown = true;
         
         var div;
-        var id_string;
+        var img;
         for (var i = 0; i < this.instrument.num_of_runs; i++) {
             div = document.createElement('div');
             div.id = 'run' + i;
@@ -185,8 +185,11 @@ class Display {
                 div = document.createElement('div');
                 div.id = '' + i + ',' + j;
                 div.className = 'step';
-                id_string = 'run' + i;
-                document.getElementById(id_string).appendChild(div);
+                document.getElementById('run' + i).appendChild(div);
+
+                img = document.createElement('img');
+                img.src = 'fret.svg';
+                document.getElementById(div.id).appendChild(img);
             }
         }
         this.show_board_util();
