@@ -1,30 +1,29 @@
 class Scale {
-    constructor(notes, semitone) {
+    constructor(notes) {
         this.notes = notes;
-        this.semitone = semitone;
+        this.size = notes.length;
         this.scale_map = {};
         this.scale_map_create();
     }
-    scale_map_create() {
+
+    // Create a dictionary that relates note name to location in 2D notes array
+    scale_map_create() { 
         var current_note;
-        for (var i = 0; i < this.notes.length; i++) {
-            for (var j = 0; j < this.notes[0].length; j++) {
+        for (var i = 0; i < this.size; i++) {
+            for (var j = 0; j < this.notes[i].length; j++) {
                 current_note = this.notes[i][j];
                 this.scale_map[current_note] = [i, j];
             }
         }
     }
+    getCoordinates(note) {
+        return this.scale_map[note];
+    }
     move_up_scale(current_note, amount) {
-        return this.notes[(this.scale_map[current_note][0] + amount) % this.notes.length];
+        return this.notes[(this.getCoordinates(current_note)[0] + amount) % this.size];
     }
     move_down_scale(current_note, amount) {
-        return this.notes[(this.scale_map[current_note][0] - amount) % this.notes.length];
-    }
-    half_step(current_note) {
-        return this.move_up_scale(current_note, this.semitone);
-    }
-    whole_step(current_note) {
-        return this.move_up_scale(current_note, this.semitone * 2);
+        return this.notes[(this.getCoordinates(current_note)[0] - amount) % this.size];
     }
 }
 class Chromatic extends Scale {
@@ -43,8 +42,7 @@ class Chromatic extends Scale {
             ['A', 'G##', 'Bbb'],
             ['A#', 'Bb', 'Cbb'],
             ['B', 'Cb', 'A##']
-        ],
-        1
+        ]
         );
     }
 }
@@ -61,10 +59,11 @@ class Instrument {
         this.note_indexs_skeleton();
         this.note_indexs_fill();
     }
+
     note_indexs_skeleton() {
         var current_note;
-        for (var i = 0; i < this.scale.notes.length; i++) {
-            for (var j = 0; j < this.scale.notes[0].length; j++) {
+        for (var i = 0; i < this.scale.size; i++) {
+            for (var j = 0; j < this.scale.notes[i].length; j++) {
                 current_note = this.scale.notes[i][j];
                 this.note_indexes[current_note] = [];
             }
@@ -75,7 +74,7 @@ class Instrument {
         var current_notes;
         for (var i = 0; i < this.num_of_runs; i++) {
             current_note = this.tuning_of_runs[i];
-            current_notes = this.scale.notes[this.scale.scale_map[current_note][0]];
+            current_notes = this.scale.notes[this.scale.getCoordinates(current_note)[0]];
 
             for (var j = 0; j < this.steps_in_run; j++) {
                 for (var k = 0; k < current_notes.length; k++) {
@@ -105,11 +104,12 @@ class Display {
         this.shown = false;
     }
 
+    // Insert the HTML elements for user to select notes
     create_user_selection() {
         var element;
         var id_string;
         
-        for (var i = 0; i < this.instrument.scale.notes.length; i++) {
+        for (var i = 0; i < this.instrument.scale.size; i++) {
             id_string = 'notes[' + i + ']';
             
             element = document.createElement('div');
@@ -150,14 +150,13 @@ class Display {
         }
         
     }
-
     change_display_notes(selected_notes) {
         this.display_notes = selected_notes;
     }
     get_selected_notes() {
         var current_note;
         var ret_array = [];
-        for (var i = 0; i < this.instrument.scale.notes.length; i++) {
+        for (var i = 0; i < this.instrument.scale.size; i++) {
             for (var j = 0; j < this.instrument.scale.notes[i].length; j++) {
                 current_note = this.instrument.scale.notes[i][j];
                 if (document.getElementById(current_note).checked) {
@@ -186,7 +185,6 @@ class Display {
                 div = document.createElement('div');
                 div.id = '' + i + ',' + j;
                 div.className = 'step';
-                // div.innerHTML = '';
                 id_string = 'run' + i;
                 document.getElementById(id_string).appendChild(div);
             }
@@ -218,6 +216,7 @@ class Display {
 }
 
 
+// Driver code
 var disp = new Display();
 function start() {
     disp.create_user_selection();
