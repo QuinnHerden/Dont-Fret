@@ -221,7 +221,6 @@ class Display {
         for (var i = 0; i < this.instrument.num_of_runs; i++) {
             id_string = 'run' + i;
             document.getElementById(id_string).remove();
-
         }
     }
 }
