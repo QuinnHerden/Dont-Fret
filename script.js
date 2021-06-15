@@ -104,7 +104,7 @@ class Display {
         this.shown = false;
     }
 
-    // Insert the HTML elements for user to select notes
+    // Insert HTML elements for user to select notes
     create_user_selection() {
         var element;
         var id_string;
