@@ -52,7 +52,7 @@ class Instrument {
     constructor(type, tuning_of_runs) {
         this.type = type;
         this.tuning_of_runs = tuning_of_runs;
-        this.steps_in_run = 22;
+        this.steps_in_run = 13;
         this.num_of_runs = tuning_of_runs.length;
         this.scale = new Chromatic();
         this.note_indexes = {};

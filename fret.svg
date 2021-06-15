@@ -3,9 +3,9 @@
      width="80" height="30"
      xmlns="http://www.w3.org/2000/svg">
 
-  <rect width="100%" height="100%" fill="#d4a373" />
+  <rect width="100%" height="100%" fill="#7A5C58" />
+  <rect width="2%" height="100%" fill="#FAE3E3"/>
   <rect y="50%" width="100%" height="10%" fill="black"/>
-  <rect width="2%" height="100%" fill="#FEFAE0"/>
 
 
   <circle cx="100" cy="100" r="50" fill="#faedcd" />

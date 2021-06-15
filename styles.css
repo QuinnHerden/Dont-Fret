@@ -1,10 +1,13 @@
 body {
-    background-color: #606C38;
-    color: #FEFAE0;
+    background-color: #816C61;
+    color: #CFCFEA;
+    /* display: grid; */
+    /* grid-template-columns: repeat(4, 1fr); */
+    /* grid-template-rows: repeat(1, 0fr); */
 }
 .run {
     display: grid;
-    grid-template-columns: repeat(22, 1fr);
+    grid-template-columns: repeat(13, 0fr);
     grid-template-rows: repeat(1, 30px);
 }
 .step {
