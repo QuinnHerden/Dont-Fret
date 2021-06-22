@@ -113,6 +113,7 @@ class Display_Guitar {
             
             element = document.createElement('div');
             element.id = 'notes[' + i + ']';
+            element.className = 'notes';
             document.getElementById('note_selection').appendChild(element);
 
             for (var j = 0; j < this.instrument.scale.notes[i].length; j++) {
@@ -121,6 +122,7 @@ class Display_Guitar {
                 element.type = 'radio';
                 element.id = '' + this.instrument.scale.notes[i][j];
                 element.name = i;
+                element.onclick = function() { disp.show_board(); };
                 document.getElementById(id_string).appendChild(element);
 
                 // Create note label
@@ -129,22 +131,18 @@ class Display_Guitar {
                 document.getElementById(id_string).appendChild(element);
             }
 
-            // Create none radio button
+            // Create blank radio button
             element = document.createElement('input');
             element.type = 'radio';
-            element.id = 'None';
+            element.id = 'blank';
             element.name = i;
             element.checked = true;
+            element.onclick = function() { disp.show_board(); };
             document.getElementById(id_string).appendChild(element);
 
-            // Create none label
+            // Create blank label
             element = document.createElement('label')
-            element.innerHTML = 'None';
-            document.getElementById(id_string).appendChild(element);
-
-            // Create line breaks
-            element = document.createElement('br');
-            document.getElementById(id_string).appendChild(element);
+            element.innerHTML = '__';
             document.getElementById(id_string).appendChild(element);
         }
         
