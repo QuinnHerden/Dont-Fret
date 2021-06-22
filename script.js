@@ -52,7 +52,7 @@ class Instrument {
     constructor(type, tuning_of_runs) {
         this.type = type;
         this.tuning_of_runs = tuning_of_runs;
-        this.steps_in_run = 13;
+        this.steps_in_run = 14;
         this.num_of_runs = tuning_of_runs.length;
         this.scale = new Chromatic();
         this.note_indexes = {};
@@ -97,7 +97,7 @@ class Piano extends Instrument {
 }
 
 
-class Display {
+class Display_Guitar {
     constructor() {
         this.instrument = new Guitar(['E', 'B', 'G', 'D', 'A', 'E']);
         this.display_notes = [];
@@ -191,7 +191,28 @@ class Display {
                 document.getElementById('run' + i).appendChild(div);
                 
                 img = document.createElement('img');
-                img.src = 'fret.svg';
+                if (j == 0) {
+                    img.src = 'open_fret.svg';
+
+                } else if (j % 12 == 1 || j % 12 == 11) {
+                    img.src = 'fret.svg';
+
+                } else if ((j % 12 == 0) && (i == 1 || i == 3)) {
+                    img.src = 'fret_top.svg';
+
+                } else if ((j % 12 == 0) && (i == 2 || i == 4)) {
+                    img.src = 'fret_bottom.svg';
+
+                } else if ((j % 2 != 0) && (i == 2)) {
+                    img.src = 'fret_top.svg';
+
+                } else if ((j % 2 != 0) && (i == 3)) {
+                    img.src = 'fret_bottom.svg';
+
+                } else {
+
+                    img.src = 'fret.svg';
+                }
                 document.getElementById(id_string).appendChild(img);
                 
                 div = document.createElement('div');
@@ -227,7 +248,7 @@ class Display {
 
 
 // Driver code
-var disp = new Display();
+var disp = new Display_Guitar();
 function start() {
     disp.create_user_selection();
     disp.show_board();

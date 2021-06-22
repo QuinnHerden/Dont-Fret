@@ -6,4 +6,6 @@
   <rect width="100%" height="100%" fill="#7A5C58" />
   <rect width="5%" height="100%" fill="#d6c1c1"/>
   <rect y="14" width="100%" height="8%" fill="black"/>
+
+  <circle cy="30" cx="50%" r="6" fill="#c2b7b6"/>
 </svg>

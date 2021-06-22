@@ -1,13 +1,15 @@
 body {
     background-color: #816C61;
-    color: #CFCFEA;
+    /* color: #CFCFEA; */
+    color: white;
+    font-size: medium;
     /* display: grid; */
     /* grid-template-columns: repeat(4, 1fr); */
     /* grid-template-rows: repeat(1, 0fr); */
 }
 .run {
     display: grid;
-    grid-template-columns: repeat(13, 0fr);
+    grid-template-columns: repeat(14, 0fr);
     grid-template-rows: repeat(1, 30px);
 }
 .step {
