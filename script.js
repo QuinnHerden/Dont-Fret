@@ -101,7 +101,6 @@ class Display_Guitar {
     constructor() {
         this.instrument = new Guitar(['E', 'B', 'G', 'D', 'A', 'E']);
         this.display_notes = [];
-        this.shown = false;
     }
 
     // Insert HTML elements for user to select notes
@@ -192,26 +191,26 @@ class Display_Guitar {
                 
                 img = document.createElement('img');
                 if (j == 0) {
-                    img.src = 'open_fret.svg';
+                    img.src = './res/open_fret.svg';
 
                 } else if (j % 12 == 1 || j % 12 == 11) {
-                    img.src = 'fret.svg';
+                    img.src = './res/fret.svg';
 
                 } else if ((j % 12 == 0) && (i == 1 || i == 3)) {
-                    img.src = 'fret_top.svg';
+                    img.src = './res/fret_top.svg';
 
                 } else if ((j % 12 == 0) && (i == 2 || i == 4)) {
-                    img.src = 'fret_bottom.svg';
+                    img.src = './res/fret_bottom.svg';
 
                 } else if ((j % 2 != 0) && (i == 2)) {
-                    img.src = 'fret_top.svg';
+                    img.src = './res/fret_top.svg';
 
                 } else if ((j % 2 != 0) && (i == 3)) {
-                    img.src = 'fret_bottom.svg';
+                    img.src = './res/fret_bottom.svg';
 
                 } else {
 
-                    img.src = 'fret.svg';
+                    img.src = './res/fret.svg';
                 }
                 document.getElementById(id_string).appendChild(img);
                 
