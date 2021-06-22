@@ -2,13 +2,10 @@ body {
     background-color: #816C61;
     color: white;
     font-size: medium;
-    
 }
-
 .ui {
-    position: fixed;
+    position: absolute;
 }
-
 .note_select {
     display: grid;
     grid-template-columns: repeat(13, 1fr);
